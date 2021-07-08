@@ -4,8 +4,11 @@ import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
+import { StackScreenProps } from '@react-navigation/stack'
 
-export default function StartScreen({ navigation }) {
+type Props = StackScreenProps<{[key:string]: any}, 'StartScreen'>;
+
+export default function StartScreen({ navigation }: Props) {
   return (
     <Background>
       <Logo />
@@ -13,7 +16,14 @@ export default function StartScreen({ navigation }) {
       <Paragraph>
         The easiest way to start with your amazing application.
       </Paragraph>
-      <Button mode="outlined">Login</Button>
+      <Button
+        mode="outlined"
+        onPress={() => {
+          navigation.push('LoginScreen')
+        }}
+      >
+        Login
+      </Button>
       <Button mode="contained">Sign up</Button>
     </Background>
   )

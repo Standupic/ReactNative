@@ -2,8 +2,15 @@ import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { TextInput as Input } from 'react-native-paper'
 import { theme } from '../core/theme'
+import {TextInputProps} from "react-native-paper/lib/typescript/components/TextInput/TextInput";
 
-export default function TextInput({ errorText, description, ...props }) {
+
+interface ITextInput extends TextInputProps {
+  description?: string,
+  errorText?: boolean,
+}
+
+export default function TextInput({ errorText, description, ...props }: Omit<ITextInput, 'theme'>) {
   return (
     <View style={styles.container}>
       <Input
