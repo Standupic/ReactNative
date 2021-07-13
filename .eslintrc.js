@@ -8,6 +8,19 @@ module.exports = {
     node: true,
   },
   rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        bracketSpacing: true,
+        jsxBracketSameLine: true,
+        singleQuote: true,
+        trailingComma: 'all',
+        printWidth: 100,
+        useTabs: false,
+        tabWidth: 2,
+        arrowParens: 'always',
+      },
+    ],
     'jsx-a11y/href-no-hash': ['off'],
     'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
     'no-unused-vars': 'warn',

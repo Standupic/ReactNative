@@ -7,7 +7,8 @@ import {TextInputProps} from "react-native-paper/lib/typescript/components/TextI
 
 interface ITextInput extends TextInputProps {
   description?: string,
-  errorText?: boolean,
+  errorText?: string,
+  error: boolean
 }
 
 export default function TextInput({ errorText, description, ...props }: Omit<ITextInput, 'theme'>) {

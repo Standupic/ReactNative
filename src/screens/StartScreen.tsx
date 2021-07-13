@@ -6,6 +6,8 @@ import Background from '../components/Background'
 import Logo from '../components/Logo'
 import { StackScreenProps } from '@react-navigation/stack'
 
+
+
 type Props = StackScreenProps<{[key:string]: any}, 'StartScreen'>;
 
 export default function StartScreen({ navigation }: Props) {
@@ -24,7 +26,9 @@ export default function StartScreen({ navigation }: Props) {
       >
         Login
       </Button>
-      <Button mode="contained">Sign up</Button>
+      <Button mode="contained" onPress={() => {
+          navigation.navigate('RegisterScreen')
+      }}>Sign up</Button>
     </Background>
   )
 }
