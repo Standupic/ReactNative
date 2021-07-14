@@ -9,10 +9,15 @@ import {StackScreenProps} from "@react-navigation/stack";
 import Header from '../components/Header';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {theme} from '../core/theme';
+import {useDispatch, useSelector} from 'react-redux';
+import {State} from "../../reducer/types";
+import Actions from '../../actions'
 
 type Props = StackScreenProps<{[key:string]: any}, 'LoginScreen'>;
 
-export default function LoginScreen({navigation}: Props) {
+const LoginScreen = ({navigation}: Props) => {
+    const counter = useSelector((state: State) => state.counter)
+    const dispatch = useDispatch()
     const [email, setEmail] = useState({value: '', error: ''})
     const [password, setPassword] = useState({ value: '', error: '' })
     const onLoginPressed = () => {
@@ -44,7 +49,9 @@ export default function LoginScreen({navigation}: Props) {
           error={!!password.error}
           errorText={password.error} 
           onChangeText={(text) => setPassword({ value: text, error: "" })}/>
-      <Button mode="contained" onPress={onLoginPressed}>Login</Button>
+        <Button mode="contained" onPress={onLoginPressed}>Login</Button>
+        <Button mode="contained" onPress={() => {dispatch(Actions.increment())}}>Increment</Button>
+        <Text>{counter}</Text>
         <View style={styles.forgotPassword}>
             <TouchableOpacity onPress={() => navigation.navigate("ResetPasswordScreen")}>
                 <Text style={styles.forgot}>Forgot your password?</Text>
@@ -64,3 +71,5 @@ const styles = StyleSheet.create({
         color: theme.colors.primary
     },
 });
+
+export default LoginScreen
