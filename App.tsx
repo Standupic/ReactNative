@@ -8,24 +8,27 @@ import StartScreen from './src/screens/StartScreen'
 import LoginScreen from './src/screens/LoginScreen'
 import RegisterScreen from './src/screens/RegisterScreen'
 import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
+import StatusConnection from "./src/components/StatusBar";
+import {StyleSheet, Text, View, StatusBar, Platform} from 'react-native';
 import store from './store';
 const Stack = createStackNavigator()
 
 export default function App() {
   return (
     <Provider store={store}>
-      <ProviderPaper>
-        <NavigationContainer>
-          <Stack.Navigator
-              initialRouteName="StartScreen"
-              screenOptions={{ headerShown: false }}
-          >
-            <Stack.Screen name="StartScreen" component={StartScreen} />
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-            <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <ProviderPaper>   
+            <StatusConnection/>
+               {/* <NavigationContainer>
+                  <Stack.Navigator
+                      initialRouteName="StartScreen"
+                      screenOptions={{ headerShown: false }}
+                  >
+                    <Stack.Screen name="StartScreen" component={StartScreen} />
+                    <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                    <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+                    <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
+                  </Stack.Navigator>
+                </NavigationContainer>*/}
       </ProviderPaper>
     </Provider>
   )
