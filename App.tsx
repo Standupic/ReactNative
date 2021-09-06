@@ -16,19 +16,16 @@ const Stack = createStackNavigator()
 export default function App() {
   return (
     <Provider store={store}>
-        <ProviderPaper>   
-            <StatusConnection/>
-               {/* <NavigationContainer>
-                  <Stack.Navigator
-                      initialRouteName="StartScreen"
-                      screenOptions={{ headerShown: false }}
-                  >
-                    <Stack.Screen name="StartScreen" component={StartScreen} />
-                    <Stack.Screen name="LoginScreen" component={LoginScreen} />
-                    <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-                    <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
-                  </Stack.Navigator>
-                </NavigationContainer>*/}
+        <ProviderPaper>
+            <NavigationContainer>
+              <Stack.Navigator
+                  initialRouteName="LoginScreen"
+                  screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+                <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
+              </Stack.Navigator>
+            </NavigationContainer>
       </ProviderPaper>
     </Provider>
   )

@@ -4,9 +4,7 @@ import NetInfo, {NetInfoState} from "@react-native-community/netinfo";
 import {StyleSheet, Text, View, StatusBar, Platform} from 'react-native';
 import {connect} from "react-redux";
 
-type Props = { children?: ReactNode}
-
-const StatusConnection = ({children}: Props) => {
+const StatusConnection: React.FunctionComponent = (props) => {
     const [isConnected , setConnect] = useState<NetInfoState['isConnected']>(true)
    
     useEffect(() => {
@@ -40,8 +38,8 @@ const StatusConnection = ({children}: Props) => {
 
     if(isConnected){
         return (
-            <View>
-                {children}
+            <View style={styles.container}>
+                {props.children}
             </View>
             )
     }else{
@@ -64,6 +62,10 @@ const statusHeight =
 
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        width: '100%'
+    },
     messageContainer: {
         zIndex: 1,
         position: 'absolute',

@@ -12,6 +12,7 @@ import {theme} from '../core/theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {State} from "../../reducer/types";
 import Actions from '../../actions'
+import StatusBar from "../components/StatusBar";
 
 type Props = StackScreenProps<{[key:string]: any}, 'LoginScreen'>;
 
@@ -20,6 +21,7 @@ const LoginScreen = ({navigation}: Props) => {
     const dispatch = useDispatch()
     const [email, setEmail] = useState({value: '', error: ''})
     const [password, setPassword] = useState({ value: '', error: '' })
+    
     const onLoginPressed = () => {
         const emailError = emailValidator(email.value);
         if (emailError) {
@@ -33,7 +35,7 @@ const LoginScreen = ({navigation}: Props) => {
     }
     return (
     <Background>
-      <BackButton goBack={navigation.goBack}/>
+      {/*<BackButton goBack={navigation.goBack}/>*/}
       <Logo />
       <Header>Sing in</Header>
       <TextInput 
@@ -50,13 +52,13 @@ const LoginScreen = ({navigation}: Props) => {
           errorText={password.error} 
           onChangeText={(text) => setPassword({ value: text, error: "" })}/>
         <Button mode="contained" onPress={onLoginPressed}>Login</Button>
-        <Button mode="contained" onPress={() => {dispatch(Actions.increment())}}>Increment</Button>
-        <Text>{counter}</Text>
-        <View style={styles.forgotPassword}>
+        {/*<Button mode="contained" onPress={() => {dispatch(Actions.increment())}}>Increment</Button>*/}
+        {/*  <Text>{counter}</Text>*/}
+        {/* <View style={styles.forgotPassword}>
             <TouchableOpacity onPress={() => navigation.navigate("ResetPasswordScreen")}>
                 <Text style={styles.forgot}>Forgot your password?</Text>
             </TouchableOpacity>
-        </View>
+        </View>*/}
     </Background>
   )
 }
