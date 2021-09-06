@@ -23,8 +23,11 @@
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.4.0",
     "react-native-status-bar-height": "^2.6.0",
+    "react-native-svg": "^12.1.1",
+    "react-native-svg-transformer": "^0.14.3",
     "react-redux": "^7.2.1",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "metro-config": "^0.66.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

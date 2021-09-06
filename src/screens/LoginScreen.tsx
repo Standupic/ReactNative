@@ -37,7 +37,7 @@ const LoginScreen = ({navigation}: Props) => {
     <Background>
       {/*<BackButton goBack={navigation.goBack}/>*/}
       <Logo />
-      <Header>Sing in</Header>
+      <Header>Войти</Header>
       <TextInput 
           label="Email"
           value={email.value}
