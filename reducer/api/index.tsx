@@ -1,4 +1,4 @@
-import {ERROR, SUCCESS, SIGNUP} from "./constans";
+import {ERROR, SUCCESS, SIGNUP, LOADING} from "../../constants";
 
 interface IInitialState {
     isLoading: boolean,
@@ -15,7 +15,7 @@ const INITIAL_STATE: IInitialState = {
 }
 
 type ACTIONTYPE = 
-    | { type: typeof SIGNUP }
+    | { type: typeof LOADING }
     | { type: typeof SUCCESS }
     | { 
         type: typeof ERROR,
@@ -26,7 +26,7 @@ type ACTIONTYPE =
     
 const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
     switch (action.type){
-        case SIGNUP:
+        case LOADING:
             return state
         case SUCCESS:
             return {
@@ -47,4 +47,4 @@ const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
     }
 }
 
-export default Auth
+export default Auth;

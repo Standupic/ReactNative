@@ -8,7 +8,7 @@ export function passwordValidator(password: string) {
     if (!password) return "Password can't be empty.";
     return "";
 }
-export function nameValidator(name: string) {
-    if (!name) return "Name can't be empty.";
+export function loginValidator(login: string) {
+    if (!login) return "Name can't be empty.";
     return "";
 }

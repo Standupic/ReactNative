@@ -3,7 +3,7 @@ import Background from '../components/Background'
 import Button from '../components/Button'
 import Logo from '../components/Logo'
 import TextInput from '../components/TextInput'
-import {emailValidator, passwordValidator, nameValidator} from '../helpers/formValidation';
+import {emailValidator, passwordValidator, loginValidator} from '../helpers/formValidation';
 import BackButton from '../components/BackButton';
 import {StackScreenProps} from '@react-navigation/stack';
 import Header from '../components/Header';
@@ -19,7 +19,7 @@ export default function RegisterScreen({navigation}: Props) {
     const onSignUpPressed = () => {
         const emailError = emailValidator(email.value);
         const passwordError = passwordValidator(password.value);
-        const nameError = nameValidator(name.value);
+        const nameError = loginValidator(name.value);
         if (emailError || passwordError) {
             setEmail({ ...email, error: emailError });
             setPassword({ ...password, error: passwordError });
