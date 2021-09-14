@@ -14,20 +14,23 @@ const INITIAL_STATE: IInitialState = {
     message: null
 }
 
-type ACTIONTYPE = 
+type ACTIONTYPE =
     | { type: typeof LOADING }
     | { type: typeof SUCCESS }
-    | { 
-        type: typeof ERROR,
-        message: string 
-      }
+    | {
+    type: typeof ERROR,
+    message: string
+}
 
-    
-    
+
+
 const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
     switch (action.type){
         case LOADING:
-            return state
+            return {
+                ...state,
+                isLoading: true
+            }
         case SUCCESS:
             return {
                 ...state,
@@ -41,9 +44,9 @@ const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
                 success: false,
                 message: action.message,
             }
-        default: 
-            return state    
-            
+        default:
+            return state
+
     }
 }
 

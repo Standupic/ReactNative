@@ -1,9 +1,6 @@
-import { API_DEV_HOST, API_PREFIX } from 'react-native-dotenv'
-
 const config = {
-  prefix: API_PREFIX,
-  host: API_DEV_HOST,
-  å,
+  host: "https://dev-api.sbertaxfree.ru",
+  prefix: "/api/v1",
 }
 
 export default config

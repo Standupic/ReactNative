@@ -3,17 +3,15 @@ import Background from '../components/Background'
 import Button from '../components/Button'
 import Logo from '../components/Logo'
 import TextInput from '../components/TextInput'
-import {emailValidator, passwordValidator} from '../helpers/formValidation';
-import BackButton from '../components/BackButton';
+import {loginValidator, passwordValidator} from '../helpers/formValidation';
 import {StackScreenProps} from "@react-navigation/stack";
 import Header from '../components/Header';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {theme} from '../core/theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {State} from "../../reducer/types";
 import Actions from '../../actions'
-import StatusBar from "../components/StatusBar";
-import Axios from "axios";
+import {auth} from "../../actions/auth";
 
 type Props = StackScreenProps<{[key:string]: any}, 'LoginScreen'>;
 
@@ -23,7 +21,7 @@ const LoginScreen = ({navigation}: Props) => {
     const [email, setEmail] = useState({value: '', error: ''})
     const [password, setPassword] = useState({ value: '', error: '' })
     const onLoginPressed = () => {
-        const emailError = emailValidator(email.value);
+        const emailError = loginValidator(email.value);
         if (emailError) {
             setEmail({ ...email, error: emailError });
         }
@@ -33,6 +31,7 @@ const LoginScreen = ({navigation}: Props) => {
             setPassword({ ...password, error: passwordError });
         }
         
+        dispatch(auth(email.value, password.value))
     }
     
     return (

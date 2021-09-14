@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
 import Counter from './CounterReducer';
-import Api from './api'
+import Auth from './auth'
 
 export default combineReducers({
-    api: Api,
+    Auth: Auth,
     counter: Counter
 })

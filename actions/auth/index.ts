@@ -1,20 +1,48 @@
 import { Middleware } from "redux";
-import { RootState } from '../../store'
+import { AppDispatch } from '../../store'
 import {ERROR, SUCCESS, LOADING} from "../../constants";
-import ICrudHttp from '../../src/api';
+import HttpClient from '../../api';
+import {AnyAction} from "redux";
+import {getStringWithFilteredSpace} from '../../utils/common'
+import {IUserAPIUserData} from "../../api/types/user";
 
-interface IRequest {
-    type: string,
-    url: string,
-    data?: Record<string, any>,
+export interface Credentials {
+    refresh_token: string;
+    token: string;
 }
 
-export const auth: Middleware<{}, RootState> = state => next => async (action: IRequest) => {
-    const { type, url, data } = action
-    next({
-        type: type
-    })
-    next({
-        type: LOADING
-    })
+
+
+const fetchCurrentUser = async (dispatch: AppDispatch) => {
+    try {
+        const user = await HttpClient.get<IUserAPIUserData>('/users/me')
+      /*  dispatch({
+            type: "CURRENT_USER",
+            payload: user.data
+        })*/
+    } catch (e) {
+      /*  this.logout(); */
+        return Promise.reject(e);
+    }
+}
+
+export const auth = (login: string, password: string) => async (dispatch: AppDispatch) => {
+    console.log('auth');
+    try {
+        dispatch({
+            type: LOADING
+        })
+        const { data } = await HttpClient.post<Credentials>('/authentication_token', {
+            login: getStringWithFilteredSpace(login),
+            password,
+        });
+        console.log(data)
+        // setStorageValue('credentials', data);
+        await fetchCurrentUser(dispatch)
+    } catch (e) {
+       dispatch({
+           type: ERROR,
+           message: "Что то пошло не так!"
+       })
+    }
 }
