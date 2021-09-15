@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
-import { theme } from '../core/theme'
 import StatusBar from "./StatusBar";
 
 const Background: React.FunctionComponent = (props) => {

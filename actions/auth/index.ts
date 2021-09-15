@@ -5,6 +5,7 @@ import HttpClient from '../../api';
 import {AnyAction} from "redux";
 import {getStringWithFilteredSpace} from '../../utils/common'
 import {IUserAPIUserData} from "../../api/types/user";
+import {setItem, getItem} from "../../utils/localStorage";
 
 export interface Credentials {
     refresh_token: string;
@@ -16,6 +17,7 @@ export interface Credentials {
 const fetchCurrentUser = async (dispatch: AppDispatch) => {
     try {
         const user = await HttpClient.get<IUserAPIUserData>('/users/me')
+       
       /*  dispatch({
             type: "CURRENT_USER",
             payload: user.data
@@ -37,7 +39,7 @@ export const auth = (login: string, password: string) => async (dispatch: AppDis
             password,
         });
         console.log(data)
-        // setStorageValue('credentials', data);
+        setItem('token', data)
         await fetchCurrentUser(dispatch)
     } catch (e) {
        dispatch({

@@ -1,12 +1,11 @@
-import React, {ReactChild, ReactNode, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import NetInfo, {NetInfoState} from "@react-native-community/netinfo";
 import {StyleSheet, Text, View, StatusBar, Platform} from 'react-native';
-import {connect} from "react-redux";
 
 const StatusConnection: React.FunctionComponent = (props) => {
     const [isConnected , setConnect] = useState<NetInfoState['isConnected']>(true)
-   
+    
     useEffect(() => {
         const subscription = NetInfo.addEventListener((state) => {
             setConnect(state.isConnected)

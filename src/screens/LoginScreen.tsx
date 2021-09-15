@@ -9,14 +9,14 @@ import Header from '../components/Header';
 import {StyleSheet, Text} from 'react-native';
 import {theme} from '../core/theme';
 import {useDispatch, useSelector} from 'react-redux';
-import {State} from "../../reducer/types";
+import {RootState} from "../../store";
 import Actions from '../../actions'
 import {auth} from "../../actions/auth";
 
 type Props = StackScreenProps<{[key:string]: any}, 'LoginScreen'>;
 
 const LoginScreen = ({navigation}: Props) => {
-    const counter = useSelector((state: State) => state.counter)
+    const counter = useSelector((state: RootState) => state.counter)
     const dispatch = useDispatch()
     const [email, setEmail] = useState({value: '', error: ''})
     const [password, setPassword] = useState({ value: '', error: '' })
@@ -43,6 +43,7 @@ const LoginScreen = ({navigation}: Props) => {
           label="Email"
           value={email.value}
           errorText={email.error}
+          autoCapitalize='none'
           error={!!email.error}
           onChangeText={(text) => setEmail({ value: text, error: "" })}
       />
@@ -50,6 +51,7 @@ const LoginScreen = ({navigation}: Props) => {
           label="Password" 
           value={password.value}
           error={!!password.error}
+          autoCapitalize='none'
           errorText={password.error} 
           onChangeText={(text) => setPassword({ value: text, error: "" })}/>
         <Button mode="contained" onPress={onLoginPressed}>Login</Button>
