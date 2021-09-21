@@ -1,30 +1,52 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import {View, StyleSheet, Text, Animated} from 'react-native'
 import { TextInput as Input } from 'react-native-paper'
 import { theme } from '../core/theme'
 import {TextInputProps} from "react-native-paper/lib/typescript/components/TextInput/TextInput";
-
+import { Field, FieldProps} from 'formik';
 
 interface ITextInput extends TextInputProps {
   description?: string,
   errorText?: string,
-  error: boolean
+  name: string
+  label: string
+  required?: boolean
 }
 
-export default function TextInput({ errorText, description, ...props }: Omit<ITextInput, 'theme'>) {
+type Value = any
+
+export default function TextInput({ errorText, description, name, label, required, ...props }: Omit<ITextInput, 'theme'>) {
+  const onChangeRef = React.useRef<any>();
+  
   return (
     <View style={styles.container}>
-      <Input
-        style={styles.input}
-        selectionColor={theme.colors.primary}
-        underlineColor="transparent"
-        mode="outlined"
-        {...props}
-      />
-      {description && !errorText ? (
-        <Text style={styles.description}>{description}</Text>
-      ) : null}
-      {errorText ? <Text style={styles.error}>{errorText}</Text> : null}
+        <Field name={name}>
+          {(FieldProps: FieldProps<Value>) => {
+              console.log(name)
+              const { field, form, meta } = FieldProps;
+              if(!onChangeRef.current){
+                onChangeRef.current = ((value: Value) => {
+                  form.setFieldValue(field.name, value)
+                })
+              }
+              return (
+                  <View>
+                    <Input
+                        style={styles.input}
+                        selectionColor={theme.colors.primary}
+                        underlineColor="transparent"
+                        mode="outlined"
+                        label={label}
+                        value={field.value}
+                        error={meta.touched && !!meta.error}
+                        onChangeText={onChangeRef.current}
+                        {...props}
+                    />
+                    {meta.touched && !!meta.error ? <Text style={styles.error}>{meta.error}</Text> : null}
+                  </View>
+              )
+          }}      
+        </Field>
     </View>
   )
 }
@@ -35,6 +57,7 @@ const styles = StyleSheet.create({
     marginVertical: 12,
   },
   input: {
+    width: '100%',  
     backgroundColor: theme.colors.surface,
   },
   description: {

@@ -8,7 +8,7 @@ interface IInitialState {
 }
 
 const INITIAL_STATE: IInitialState = {
-    isLoading: true,
+    isLoading: false,
     success: false,
     error: false,
     message: null
@@ -42,6 +42,7 @@ const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
                 ...state,
                 isLoading: false,
                 success: false,
+                error: true,
                 message: action.message,
             }
         default: 

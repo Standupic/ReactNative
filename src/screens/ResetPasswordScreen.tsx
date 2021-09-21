@@ -23,14 +23,6 @@ export default function ResetPasswordScreen({navigation}: Props) {
             <BackButton goBack={navigation.goBack}/>
             <Logo />
             <Header>Restore Password</Header>
-            <TextInput
-                value={email.value}
-                errorText={email.error}
-                error={!!email.error}
-                onChangeText={(text) => setEmail({ value: text, error: "" })}
-                label="Email"
-                description="You will receive email with password reset link."
-            />
             <Button mode="contained" onPress={onSubmitPressed}>Send Instuctions</Button>
         </Background>
     )    

@@ -8,7 +8,6 @@ import StartScreen from './src/screens/StartScreen'
 import LoginScreen from './src/screens/LoginScreen'
 import RegisterScreen from './src/screens/RegisterScreen'
 import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
-import StatusConnection from "./src/components/StatusBar";
 import {StyleSheet, Text, View, StatusBar, Platform} from 'react-native';
 import store from './store';
 const Stack = createStackNavigator()

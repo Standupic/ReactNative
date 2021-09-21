@@ -1,15 +1,18 @@
 import React from 'react'
-import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
-import StatusBar from "./StatusBar";
+import {View, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from 'react-native'
+import StatusConnection from "./common/StatusConnection";
+import {isIOS} from "./const";
 
 const Background: React.FunctionComponent = (props) => {
   return (
       <View style={styles.background}>
-        <StatusBar>
-          <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-              {props.children}
-          </KeyboardAvoidingView>
-        </StatusBar>  
+        <StatusConnection>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <KeyboardAvoidingView style={styles.container} behavior={isIOS ? "padding" : "height"}>
+                {props.children}
+              </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
+        </StatusConnection>  
       </View>
   )
 }

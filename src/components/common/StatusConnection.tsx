@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import NetInfo, {NetInfoState} from "@react-native-community/netinfo";
 import {StyleSheet, Text, View, StatusBar, Platform} from 'react-native';
+import {statusHeight, isIOS} from '../const';
 
 const StatusConnection: React.FunctionComponent = (props) => {
-    const [isConnected , setConnect] = useState<NetInfoState['isConnected']>(true)
-    
+    const [isConnected, setConnect] = useState<NetInfoState['isConnected']>(true)
     useEffect(() => {
         const subscription = NetInfo.addEventListener((state) => {
             setConnect(state.isConnected)
@@ -34,15 +33,15 @@ const StatusConnection: React.FunctionComponent = (props) => {
             )}
         </View>
     );
-
+    
     if(isConnected){
         return (
             <View style={styles.container}>
                 {props.children}
             </View>
             )
-    }else{
-        if (Platform.OS === 'ios') {
+    } else { 
+        if (isIOS) {
             return (
                 <View style={[styles.status, { backgroundColor }]}>
                     {messageContainer}
@@ -55,10 +54,6 @@ const StatusConnection: React.FunctionComponent = (props) => {
         )
     }
 }
-
-const statusHeight =
-    Platform.OS === 'ios' ? getStatusBarHeight(false) : getStatusBarHeight(true);
-
 
 const styles = StyleSheet.create({
     container: {

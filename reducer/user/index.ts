@@ -23,7 +23,6 @@ type ACTIONTYPE =
 }
 
 
-
 const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
     switch (action.type){
         case LOADING:

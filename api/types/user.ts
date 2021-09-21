@@ -36,4 +36,8 @@ export interface IUserAPIUserData {
 export enum EUserRole {
     ROLE_CLIENT_CASHIER = 'ROLE_CLIENT_CASHIER', // Кассир клиента
 }
-  
+
+export enum AUTH_ERROR {
+    UNAUTHORIZED ,
+    UNKNOW
+}
