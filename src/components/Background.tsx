@@ -2,9 +2,11 @@ import React from 'react'
 import {View, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from 'react-native'
 import StatusConnection from "./common/StatusConnection";
 import {isIOS} from "./const";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store";
 
 const Background: React.FunctionComponent = (props) => {
-  return (
+    return (
       <View style={styles.background}>
         <StatusConnection>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -25,9 +27,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
+    padding: 30,
     width: '100%',
-    maxWidth: 340,
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',

@@ -6,12 +6,12 @@ const LoginForm = () => {
     return(
        <View>
            <TextInput
-               label="Login"
+               label="Логин"
                name='login'
                autoCapitalize='none'
            />
            <TextInput
-               label="Password"
+               label="Пароль"
                name='password'
                autoCapitalize='none'/>
        </View>

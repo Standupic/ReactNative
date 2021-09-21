@@ -6,7 +6,7 @@ import {AnyAction} from "redux";
 import {getStringWithFilteredSpace} from '../../utils/common'
 import {AUTH_ERROR, IUserAPIUserData} from "../../api/types/user";
 import {setItem, getItem} from "../../utils/localStorage";
-
+import {RESET} from "../../constants";
 
 export interface Credentials {
     refresh_token: string;
@@ -14,9 +14,17 @@ export interface Credentials {
 }
 
 const errorText: Record<keyof typeof AUTH_ERROR, string> = {
-    UNAUTHORIZED: "Неверный логин или пароль. Попробуйте ещё раз.",
+    UNAUTHORIZED: `Неверный логин или пароль. Попробуйте ещё раз.`,
     UNKNOW: "Неизвестная ошибка обратитесь в службу подержки."
 }
+
+
+export const reset = () => (
+    {
+        type: RESET
+    }
+)
+
 
 const getErrorAuth = (status: number | undefined) => {
     if(status) {
@@ -25,13 +33,15 @@ const getErrorAuth = (status: number | undefined) => {
     return errorText["UNKNOW"]
 }
 
+
 const fetchCurrentUser = async (dispatch: AppDispatch) => {
     try {
         const user = await HttpClient.get<IUserAPIUserData>('/users/me')
         if(user){
             dispatch({
                 type: SUCCESS
-            }) 
+            })
+            return Promise.resolve()
         }
     } catch (e) {
       /*  this.logout(); */
@@ -40,6 +50,7 @@ const fetchCurrentUser = async (dispatch: AppDispatch) => {
             type: ERROR,
             message: "Что то пошло не так!"
         })
+        return Promise.reject(e)
     }
 }
 
@@ -56,10 +67,10 @@ export const auth = (login: string, password: string) => async (dispatch: AppDis
         setItem('token', data)
         return await fetchCurrentUser(dispatch)
     } catch (e) {
-        console.log(e?.response)
         dispatch({
            type: ERROR,
            message: getErrorAuth(e?.response?.status)
        })
+        return Promise.reject(e)
     }
 }

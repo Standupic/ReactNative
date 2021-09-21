@@ -1,4 +1,4 @@
-import {ERROR, SUCCESS, SIGNUP, LOADING} from "../../constants";
+import {ERROR, SUCCESS, SIGNUP, RESET, LOADING} from "../../constants";
 
 interface IInitialState {
     isLoading: boolean,
@@ -17,6 +17,7 @@ const INITIAL_STATE: IInitialState = {
 type ACTIONTYPE = 
     | { type: typeof LOADING }
     | { type: typeof SUCCESS }
+    | { type: typeof RESET }
     | { 
         type: typeof ERROR,
         message: string 
@@ -44,6 +45,11 @@ const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
                 success: false,
                 error: true,
                 message: action.message,
+            }
+        case RESET: 
+            return  {
+                ...state,
+                ...INITIAL_STATE
             }
         default: 
             return state    

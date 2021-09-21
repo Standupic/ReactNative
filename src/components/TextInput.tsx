@@ -22,7 +22,6 @@ export default function TextInput({ errorText, description, name, label, require
     <View style={styles.container}>
         <Field name={name}>
           {(FieldProps: FieldProps<Value>) => {
-              console.log(name)
               const { field, form, meta } = FieldProps;
               if(!onChangeRef.current){
                 onChangeRef.current = ((value: Value) => {

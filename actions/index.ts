@@ -1,5 +1,5 @@
-import {increment} from './counter'
+import {auth} from './auth'
 
 export default {
-    increment: increment
+    auth: auth
 }
