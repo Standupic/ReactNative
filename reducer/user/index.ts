@@ -1,47 +1,28 @@
-import {ERROR, SUCCESS, SIGNUP, LOADING} from "../../constants";
+import {GET_USER} from "../../constants";
+import {IUserAPIUserData} from "../../api/types/user";
 
 interface IInitialState {
-    isLoading: boolean,
-    success: boolean,
-    error: boolean,
-    message: string | null,
+    currentUser: IUserAPIUserData | null
+    hasTaken: boolean,
 }
 
 const INITIAL_STATE: IInitialState = {
-    isLoading: true,
-    success: false,
-    error: false,
-    message: null
+    currentUser: null,
+    hasTaken: false,
 }
 
-type ACTIONTYPE =
-    | { type: typeof LOADING }
-    | { type: typeof SUCCESS }
+type ACTION_TYPE = 
     | {
-    type: typeof ERROR,
-    message: string
-}
+        type: typeof GET_USER
+        payload: IUserAPIUserData
+       }
 
-
-const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
+const User = (state = INITIAL_STATE, action: ACTION_TYPE) => {
     switch (action.type){
-        case LOADING:
+        case GET_USER:
             return {
                 ...state,
-                isLoading: true
-            }
-        case SUCCESS:
-            return {
-                ...state,
-                isLoading: false,
-                success: true
-            }
-        case ERROR:
-            return {
-                ...state,
-                isLoading: false,
-                success: false,
-                message: action.message,
+                currentUser: action.payload
             }
         default:
             return state
@@ -49,4 +30,4 @@ const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
     }
 }
 
-export default Auth;
+export default User

@@ -1,9 +1,7 @@
 import * as React from 'react';
-import {Modal, Portal, Text, Provider, Button, useTheme, DefaultTheme} from 'react-native-paper';
+import {Modal, Portal, Text, Provider, Button} from 'react-native-paper';
 import {useDispatch} from "react-redux";
-import {reset} from "../../../actions/auth";
 import {StyleSheet, View} from "react-native";
-import Logo from "../Logo";
 import {useCallback} from "react";
 
 
@@ -16,7 +14,7 @@ interface IMyModal {
 }
 
 
-const MyModal = (props: IMyModal) => {
+const ModalError = (props: IMyModal) => {
     const {isVisible, message, setVisible, action } = props
     const dispatch = useDispatch();
     const toClose = useCallback(() => {
@@ -57,7 +55,7 @@ const styles = StyleSheet.create({
         width: "100%",
         fontSize: 12,
         borderWidth: 1,
-        borderTopColor: 'black'
+        borderTopColor: '#a19d9d',
     },
     message: {
         padding: 20,
@@ -75,4 +73,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default MyModal;
+export default ModalError;

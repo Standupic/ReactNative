@@ -7,10 +7,11 @@ import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {theme} from '../core/theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from "../../store";
-import {auth, reset} from "../../actions/auth";
+import {auth} from "../../middleware/auth";
+import {reset} from "../../actions/auth";
 import { Formik } from 'formik';
 import LoginForm from "../components/LoginForm";
-import Modal from "../components/common/Modal";
+import ModalError from "../components/common/ModalError";
 
 interface IValues {
     password: string,
@@ -59,7 +60,7 @@ const LoginScreen = ({navigation}: Props) => {
     }
     if(error && isVisible) {
         return (
-            <Modal isVisible={isVisible} message={message} setVisible={setVisible} action={reset}/>
+            <ModalError isVisible={isVisible} message={message} setVisible={setVisible} action={reset}/>
         )
     }
     return (
