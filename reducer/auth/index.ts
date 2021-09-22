@@ -1,4 +1,5 @@
-import {ERROR, SUCCESS, SIGNUP, RESET, LOADING} from "../../constants";
+import {SUCCESS_AUTH, ERROR_AUTH, LOADING_AUTH, RESET_AUTH} from "../../constants";
+import {IUserAPIUserData} from "../../api/types/user";
 
 interface IInitialState {
     isLoading: boolean,
@@ -14,31 +15,33 @@ const INITIAL_STATE: IInitialState = {
     message: null
 }
 
-type ACTIONTYPE = 
-    | { type: typeof LOADING }
-    | { type: typeof SUCCESS }
-    | { type: typeof RESET }
+type ACTION_TYPE = 
+    | { type: typeof LOADING_AUTH }
     | { 
-        type: typeof ERROR,
+        type: typeof SUCCESS_AUTH
+      }
+    | { type: typeof RESET_AUTH }
+    | { 
+        type: typeof ERROR_AUTH,
         message: string 
       }
 
     
     
-const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
+const Auth = (state = INITIAL_STATE, action: ACTION_TYPE) => {
     switch (action.type){
-        case LOADING:
+        case LOADING_AUTH:
             return {
                 ...state,
                 isLoading: true
             }
-        case SUCCESS:
+        case SUCCESS_AUTH:
             return {
                 ...state,
                 isLoading: false,
                 success: true
             }
-        case ERROR:
+        case ERROR_AUTH:
             return {
                 ...state,
                 isLoading: false,
@@ -46,7 +49,7 @@ const Auth = (state = INITIAL_STATE, action: ACTIONTYPE) => {
                 error: true,
                 message: action.message,
             }
-        case RESET: 
+        case RESET_AUTH: 
             return  {
                 ...state,
                 ...INITIAL_STATE

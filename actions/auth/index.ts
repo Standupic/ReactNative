@@ -1,12 +1,10 @@
-import { Middleware } from "redux";
 import { AppDispatch } from '../../store'
-import {ERROR, SUCCESS, LOADING} from "../../constants";
+import {ERROR_AUTH, SUCCESS_AUTH, LOADING_AUTH, RESET_AUTH, GET_USER} from "../../constants";
 import HttpClient from '../../api';
-import {AnyAction} from "redux";
 import {getStringWithFilteredSpace} from '../../utils/common'
 import {AUTH_ERROR, IUserAPIUserData} from "../../api/types/user";
-import {setItem, getItem} from "../../utils/localStorage";
-import {RESET} from "../../constants";
+import {setItem} from "../../utils/localStorage";
+import {Use} from "react-native-svg";
 
 export interface Credentials {
     refresh_token: string;
@@ -21,7 +19,7 @@ const errorText: Record<keyof typeof AUTH_ERROR, string> = {
 
 export const reset = () => (
     {
-        type: RESET
+        type: RESET_AUTH
     }
 )
 
@@ -39,15 +37,19 @@ const fetchCurrentUser = async (dispatch: AppDispatch) => {
         const user = await HttpClient.get<IUserAPIUserData>('/users/me')
         if(user){
             dispatch({
-                type: SUCCESS
+                type: SUCCESS_AUTH
+            })
+            dispatch({
+                type: GET_USER,
+                payload: user.data
             })
             return Promise.resolve()
         }
-    } catch (e) {
+    } catch (e: any) {
       /*  this.logout(); */
         console.log(e?.response, 'currentUser')
         dispatch({
-            type: ERROR,
+            type: ERROR_AUTH,
             message: "Что то пошло не так!"
         })
         return Promise.reject(e)
@@ -58,7 +60,7 @@ export const auth = (login: string, password: string) => async (dispatch: AppDis
     console.log('auth');
     try {
         dispatch({
-            type: LOADING
+            type: LOADING_AUTH
         })
         const { data } = await HttpClient.post<Credentials>('/authentication_token', {
             login: getStringWithFilteredSpace(login),
@@ -66,9 +68,9 @@ export const auth = (login: string, password: string) => async (dispatch: AppDis
         });
         setItem('token', data)
         return await fetchCurrentUser(dispatch)
-    } catch (e) {
+    } catch (e: any) {
         dispatch({
-           type: ERROR,
+           type: ERROR_AUTH,
            message: getErrorAuth(e?.response?.status)
        })
         return Promise.reject(e)

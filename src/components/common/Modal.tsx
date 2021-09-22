@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Modal, Portal, Text, Button, Provider, useTheme, DefaultTheme} from 'react-native-paper';
+import {Modal, Portal, Text, Provider, Button, useTheme, DefaultTheme} from 'react-native-paper';
 import {useDispatch} from "react-redux";
 import {reset} from "../../../actions/auth";
 import {StyleSheet, View} from "react-native";
@@ -35,7 +35,8 @@ const MyModal = (props: IMyModal) => {
                         visible={isVisible}
                         onDismiss={toClose}
                         contentContainerStyle={styles.content}>
-                        <Text>{message}</Text>
+                        <Text style={styles.message}>{message}</Text>
+                        <Button style={styles.button} uppercase={false} onPress={toClose} color={'#1000ff'}>Ok</Button>
                     </Modal>
                 </Portal>
             </Provider>
@@ -52,9 +53,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    button: {
+        width: "100%",
+        fontSize: 12,
+        borderWidth: 1,
+        borderTopColor: 'black'
+    },
+    message: {
+        padding: 20,
+        color: '#1000ff',
+    },
     content: {
         backgroundColor: 'white',
-        padding: 20,
         textAlign: 'center',
         display: "flex",
         justifyContent: 'center',

@@ -1,9 +1,7 @@
 import React from 'react'
-import {View, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from 'react-native'
+import {View, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard} from 'react-native'
 import StatusConnection from "./common/StatusConnection";
 import {isIOS} from "./const";
-import {useSelector} from "react-redux";
-import {RootState} from "../../store";
 
 const Background: React.FunctionComponent = (props) => {
     return (
