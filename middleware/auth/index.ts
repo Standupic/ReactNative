@@ -3,7 +3,7 @@ import {ERROR_AUTH, LOADING_AUTH} from "../../constants";
 import HttpClient from "../../api";
 import {getStringWithFilteredSpace} from "../../utils/common";
 import {setItem} from "../../utils/localStorage";
-import {Credentials} from "../../actions/auth";
+import {Credentials} from "../types";
 import {fetchCurrentUser} from "../user";
 import {getErrorAuth} from "../../helpers";
 

@@ -1,5 +1,5 @@
-import React, {FC, ReactNode, useState} from 'react';
-import {LayoutChangeEvent, Platform, StyleSheet, Text, View, StatusBar} from 'react-native';
+import React, {ReactNode, useState} from 'react';
+import {LayoutChangeEvent, Platform, StyleSheet, View} from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 interface IMeasureLayout {

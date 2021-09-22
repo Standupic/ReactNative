@@ -3,12 +3,12 @@ import {IUserAPIUserData} from "../../api/types/user";
 
 interface IInitialState {
     currentUser: IUserAPIUserData | null
-    hasTaken: boolean,
+    hasToken: boolean,
 }
 
 const INITIAL_STATE: IInitialState = {
     currentUser: null,
-    hasTaken: false,
+    hasToken: false,
 }
 
 type ACTION_TYPE = 
@@ -22,7 +22,8 @@ const User = (state = INITIAL_STATE, action: ACTION_TYPE) => {
         case GET_USER:
             return {
                 ...state,
-                currentUser: action.payload
+                currentUser: action.payload,
+                hasToken: true
             }
         default:
             return state

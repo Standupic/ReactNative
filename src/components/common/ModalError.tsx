@@ -5,14 +5,12 @@ import {StyleSheet, View} from "react-native";
 import {useCallback} from "react";
 
 
-
 interface IMyModal {
     isVisible: boolean,
     message: string | null
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
     action?: () => { type: string; }
 }
-
 
 const ModalError = (props: IMyModal) => {
     const {isVisible, message, setVisible, action } = props

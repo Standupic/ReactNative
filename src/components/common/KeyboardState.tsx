@@ -1,6 +1,5 @@
 import React, {ReactNode, useEffect, useState} from "react";
-import {LayoutRectangle, Keyboard, Platform, EmitterSubscription, KeyboardEventIOS, KeyboardEvent} from "react-native";
-import {createRenderer} from "react-test-renderer/shallow";
+import {LayoutRectangle, Keyboard, Platform, EmitterSubscription, KeyboardEvent} from "react-native";
 
 const INITIAL_ANIMATION_DURATION = 250;
 

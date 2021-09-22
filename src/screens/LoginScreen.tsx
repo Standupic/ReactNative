@@ -37,7 +37,6 @@ const LoginScreen = ({navigation}: Props) => {
     
     const onSubmit = async (values: IValues) => {
         await dispatch(auth(values.login, values.password))
-        navigation.navigate("ResetPasswordScreen")
     }
 
     const validate = (values: any) => {

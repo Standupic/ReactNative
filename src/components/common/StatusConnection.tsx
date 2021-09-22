@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import NetInfo, {NetInfoState} from "@react-native-community/netinfo";
-import {StyleSheet, Text, View, StatusBar, Platform} from 'react-native';
+import {StyleSheet, Text, View, StatusBar} from 'react-native';
 import {statusHeight, isIOS} from '../const';
 
 const StatusConnection: React.FunctionComponent = (props) => {

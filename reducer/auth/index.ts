@@ -1,5 +1,4 @@
 import {SUCCESS_AUTH, ERROR_AUTH, LOADING_AUTH, RESET_AUTH} from "../../constants";
-import {IUserAPIUserData} from "../../api/types/user";
 
 interface IInitialState {
     isLoading: boolean,
