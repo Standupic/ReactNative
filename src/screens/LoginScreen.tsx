@@ -64,7 +64,9 @@ const LoginScreen = ({navigation}: Props) => {
     }
     return (
         <Background>
-            <Logo />
+            <View style={styles.logo}>
+                <Logo /> 
+            </View>
             <Formik<IValues> initialValues={initialValues} onSubmit={onSubmit} validate={validate}>
                 {({handleSubmit}) => {
                     return (
@@ -80,6 +82,10 @@ const LoginScreen = ({navigation}: Props) => {
 }
 
 const styles = StyleSheet.create({
+    logo: {
+        display: "flex",
+        justifyContent: "center"
+    },
     overlay: {
         position: "absolute",
         flex: 1,

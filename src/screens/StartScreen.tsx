@@ -11,7 +11,7 @@ type Props = StackScreenProps<{[key:string]: any}, 'StartScreen'>;
 export default function StartScreen({ navigation }: Props) {
   return (
     <Background>
-      <Logo />
+      <Logo viewBox={"0 0 180 40"}/>
       <Header>Login Template</Header>
       <Paragraph>
         The easiest way to start with your amazing application.

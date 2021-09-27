@@ -2,17 +2,11 @@ import React, {useEffect, useState} from 'react';
 import NetInfo, {NetInfoState} from "@react-native-community/netinfo";
 import {StyleSheet, Text, View, StatusBar} from 'react-native';
 import {statusHeight, isIOS} from '../const';
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store";
 
 const StatusConnection: React.FunctionComponent = (props) => {
-    const [isConnected, setConnect] = useState<NetInfoState['isConnected']>(true)
-    useEffect(() => {
-        const subscription = NetInfo.addEventListener((state) => {
-            setConnect(state.isConnected)
-        })
-        return (
-            subscription
-        )
-    })
+    const isConnected = useSelector((state: RootState) => state.net.isConnected)
     const backgroundColor = isConnected ? 'white' : 'red';
 
     const statusBar = (

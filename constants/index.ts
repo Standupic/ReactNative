@@ -1,3 +1,5 @@
+// NETWORK
+export const STATUS_CONNECT = "STATUS_CONNECT"
 // AUTH
 export const SUCCESS_AUTH = "SUCCESS";
 export const ERROR_AUTH = "ERROR";

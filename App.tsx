@@ -5,6 +5,7 @@ import { Provider as ProviderPaper } from 'react-native-paper'
 import store from './store';
 import NavigationApp from './src/components/NavigationApp';
 
+
 export default function App() {
       return (
         <Provider store={store}>

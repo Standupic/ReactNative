@@ -1,9 +1,15 @@
 import React from 'react'
 import Svg, {Path, LinearGradient, Stop, Defs, G, ClipPath, Rect} from "react-native-svg";
 
-export default function Logo() {
+interface ILogo {
+    width?: number
+    height?: number
+    viewBox?: string
+}
+
+export default function Logo(props: ILogo) {
   return  (
-    <Svg width="180" height={40}>
+    <Svg width={props.width ? props.width : 180} height={props.height ? props.height : 40} viewBox={props.viewBox ? `${props.viewBox}` : "0 0 180 20"}>
         <G clip-path="url(#clip0)">
             <Path d="M96.7284 6.54657H92.2545V17.6336H89.885V6.54657H85.4888V4.36719H96.7284V6.54657Z" fill="#511D90"/>
             <Path d="M109.312 17.6336H106.793L105.521 14.4877H99.4378L98.1875 17.6336H95.7778L101.159 4.36719H103.85L109.312 17.6336ZM104.651 12.3163L102.471 6.87589L100.292 12.3163H104.651Z" fill="#511D90"/>

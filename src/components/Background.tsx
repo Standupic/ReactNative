@@ -1,9 +1,11 @@
 import React from 'react'
-import {View, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard} from 'react-native'
+import {View, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, SafeAreaView} from 'react-native'
 import StatusConnection from "./common/StatusConnection";
 import {isIOS} from "./const";
+import useStatusConnect from "../../hooks/useStatusConnect";
 
 const Background: React.FunctionComponent = (props) => {
+    useStatusConnect()
     return (
       <View style={styles.background}>
         <StatusConnection>
