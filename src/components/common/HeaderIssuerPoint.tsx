@@ -4,11 +4,11 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 
 const HeaderIssuerPoint = () => {
-    const issuers = useSelector((state: RootState) => state.user.issuers)
+    const issuers = useSelector((state: RootState) => state.user.currentIssuer)
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Филиал</Text>
-            <Text style={styles.description}>{(issuers && issuers[0]) ? `${issuers[0].name}` : "Точка не указана!"}</Text>
+            <Text style={styles.description}>{(issuers) ? `${issuers.name}` : "Точка не указана!"}</Text>
         </View>
     )
 }

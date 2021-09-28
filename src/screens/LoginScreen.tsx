@@ -7,8 +7,7 @@ import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {theme} from '../core/theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from "../../store";
-import {auth} from "../../middleware/auth";
-import {reset} from "../../actions/auth";
+import AuthSlice, {signInAuth} from "../../reducer/auth";
 import { Formik } from 'formik';
 import LoginForm from "../components/LoginForm";
 import ModalError from "../components/common/ModalError";
@@ -28,7 +27,7 @@ type Props = StackScreenProps<{[key:string]: any}, 'LoginScreen'>;
 const LoginScreen = ({navigation}: Props) => {
     const authState = useSelector((state: RootState) => state.auth)
     const [isVisible, setVisible] = useState<boolean>(false)
-    const {success, error, message, isLoading} = authState
+    const {isLoading, message, success, error} = authState
     const dispatch = useDispatch()
     
     useEffect(() => {
@@ -36,7 +35,7 @@ const LoginScreen = ({navigation}: Props) => {
     },[error, dispatch, success])
     
     const onSubmit = async (values: IValues) => {
-        await dispatch(auth(values.login, values.password))
+        await dispatch(signInAuth({login: values.login, password: values.password}))
     }
 
     const validate = (values: any) => {
@@ -59,7 +58,7 @@ const LoginScreen = ({navigation}: Props) => {
     }
     if(error && isVisible) {
         return (
-            <ModalError isVisible={isVisible} message={message} setVisible={setVisible} action={reset}/>
+            <ModalError isVisible={isVisible} message={message} setVisible={setVisible} action={AuthSlice.actions.logOut}/>
         )
     }
     return (

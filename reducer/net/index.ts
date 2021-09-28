@@ -1,5 +1,4 @@
-import {GET_USER, STATUS_CONNECT} from "../../constants";
-import {IUserAPIUserData} from "../../api/types/user";
+import {createSlice} from "@reduxjs/toolkit";
 
 interface IInitialState {
     isConnected: boolean
@@ -9,23 +8,14 @@ const INITIAL_STATE: IInitialState = {
     isConnected: true
 }
 
-type ACTION_TYPE =
-    | {
-        type: typeof STATUS_CONNECT
-        payload: boolean
-    }
+const NetSlice = createSlice({
+    name: 'net',
+    initialState: INITIAL_STATE,
+    reducers: {
+        isConnect(state, action){
+            state.isConnected = action.payload
+        }
+    },
+})
 
-const Net = (state = INITIAL_STATE, action: ACTION_TYPE) => {
-    switch (action.type){
-        case STATUS_CONNECT:
-            return {
-                ...state,
-                isConnected: action.payload,
-            }
-        default:
-            return state
-
-    }
-}
-
-export default Net
+export default NetSlice

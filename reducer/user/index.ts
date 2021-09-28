@@ -1,8 +1,9 @@
-import {ERROR_AUTH, GET_USER, SUCCESS_AUTH} from "../../constants";
 import {IUserAPIUserData} from "../../api/types/user";
 import {IssuerPointAPI} from "../../api/types/issuers";
-import {createReducer, createAction, createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import HttpClient from "../../api";
+import {createSlice} from "@reduxjs/toolkit";
+import AuthSlice, {signInAuth} from '../auth'
+import {getCurrentIssuer} from "./utils";
+
 
 interface IInitialState {
     currentUser: IUserAPIUserData | null
@@ -18,47 +19,21 @@ const INITIAL_STATE: IInitialState = {
     currentIssuer: undefined
 }
 
-type ACTION_TYPE = 
-    | {
-        type: typeof GET_USER
-        payload: IUserAPIUserData
-       }
-
-
-const fetchUser = createAsyncThunk(
-    'users/fetch',
-    async (_, thunkAPI) => {
-        const user = await HttpClient.get<IUserAPIUserData>('/users/me')
-        return user.data
-    }
-)       
-       
-const get_user = createAction<IUserAPIUserData>('user/get_user')
-       
-const User = createSlice({
+const UserSlice = createSlice({
     name: 'user',
     initialState: INITIAL_STATE,
     reducers: {},
-    extraReducers: {
-        [`${fetchUser.fulfilled}`]: (state, action) => {
-            state.currentUser = action.payload;
-        }
+    extraReducers: (builder) => {
+        builder.addCase(signInAuth.fulfilled, (state, action) => {
+            const {user, settings} = action.payload
+            const {issuers} = user
+            state.hasToken = true
+            state.currentUser = action.payload.user
+            state.currentIssuer = getCurrentIssuer(issuers, settings.activeIssuerId )
+        })
+        builder.addCase(AuthSlice.actions.logOut, (state, action) => {
+            state = INITIAL_STATE
+        })
     }
 })
-// const User = (state = INITIAL_STATE, action: ACTION_TYPE) => {
-//     switch (action.type){
-//         case GET_USER:
-//             const {issuers} = action.payload
-//             return {
-//                 ...state,
-//                 currentUser: action.payload,
-//                 hasToken: true,
-//                 issuers: issuers,
-//             }
-//         default:
-//             return state
-//
-//     }
-// }
-
-export default User
+export default UserSlice

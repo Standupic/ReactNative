@@ -1,11 +1,14 @@
-import { createStore, applyMiddleware} from "redux";
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from "redux-thunk";
 import { configureStore } from '@reduxjs/toolkit';
-import reducers from './reducer';
+import AuthSlice from './reducer/auth'
+import UserSlice from './reducer/user'
+import NetSlice from './reducer/net'
 
-const store = configureStore({
-    reducer: reducers,
+export const store = configureStore({
+    reducer: {
+        auth: AuthSlice.reducer,
+        user: UserSlice.reducer,
+        net: NetSlice.reducer
+    }
 })
 
 export default store;

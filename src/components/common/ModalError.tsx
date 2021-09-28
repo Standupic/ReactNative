@@ -3,13 +3,14 @@ import {Modal, Portal, Text, Provider, Button} from 'react-native-paper';
 import {useDispatch} from "react-redux";
 import {StyleSheet, View} from "react-native";
 import {useCallback} from "react";
+import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
 
 
 interface IMyModal {
     isVisible: boolean,
-    message: string | null
+    message: string | undefined
     setVisible: React.Dispatch<React.SetStateAction<boolean>>
-    action?: () => { type: string; }
+    action?: ActionCreatorWithPayload<any, string>
 }
 
 const ModalError = (props: IMyModal) => {
@@ -17,7 +18,7 @@ const ModalError = (props: IMyModal) => {
     const dispatch = useDispatch();
     const toClose = useCallback(() => {
         if(action){
-            dispatch(action())
+            dispatch(action({}))
             setVisible(false)
         }
         setVisible(false)

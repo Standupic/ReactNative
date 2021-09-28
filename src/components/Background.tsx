@@ -8,13 +8,11 @@ const Background: React.FunctionComponent = (props) => {
     useStatusConnect()
     return (
       <View style={styles.background}>
-        <StatusConnection>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <KeyboardAvoidingView style={styles.container} behavior={isIOS ? "padding" : "height"}>
-                {props.children}
-              </KeyboardAvoidingView>
-            </TouchableWithoutFeedback>
-        </StatusConnection>  
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <KeyboardAvoidingView style={styles.container} behavior={isIOS ? "padding" : "height"}>
+            {props.children}
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </View>
   )
 }

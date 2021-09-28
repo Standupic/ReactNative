@@ -1,62 +1,76 @@
-import {SUCCESS_AUTH, ERROR_AUTH, LOADING_AUTH, RESET_AUTH} from "../../constants";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import HttpClient from "../../api";
+import {getStringWithFilteredSpace} from "../../utils/common";
+import {setItem} from "../../utils/localStorage";
+import {IUserAPIUserData} from "../../api/types/user";
 
 interface IInitialState {
     isLoading: boolean,
     success: boolean,
     error: boolean,
-    message: string | null,
+    message: string | undefined,
 }
 
 const INITIAL_STATE: IInitialState = {
     isLoading: false,
     success: false,
     error: false,
-    message: null
+    message: undefined
 }
 
-type ACTION_TYPE = 
-    | { type: typeof LOADING_AUTH }
-    | { 
-        type: typeof SUCCESS_AUTH
-      }
-    | { type: typeof RESET_AUTH }
-    | { 
-        type: typeof ERROR_AUTH,
-        message: string 
-      }
+interface Credentials {
+    login: string,
+    password: string
+}
 
-    
-    
-const Auth = (state = INITIAL_STATE, action: ACTION_TYPE) => {
-    switch (action.type){
-        case LOADING_AUTH:
-            return {
-                ...state,
-                isLoading: true
-            }
-        case SUCCESS_AUTH:
-            return {
-                ...state,
-                isLoading: false,
-                success: true
-            }
-        case ERROR_AUTH:
-            return {
-                ...state,
-                isLoading: false,
-                success: false,
-                error: true,
-                message: action.message,
-            }
-        case RESET_AUTH: 
-            return  {
-                ...state,
-                ...INITIAL_STATE
-            }
-        default: 
-            return state    
-            
+export interface UserSettings {
+    activeRefundOfficeId: string | null;
+    activeIssuerId: string | null;
+}
+
+export const signInAuth = createAsyncThunk(
+    'user/auth',
+    async (credentials: Credentials, thunkAPI) => {
+        const { login , password } = credentials
+        const { data } = await HttpClient.post<Credentials>('/authentication_token', {
+            login: getStringWithFilteredSpace(login), 
+            password,
+        });
+        setItem('token', data)
+        const [user, settings] = await Promise.all([
+            HttpClient.get<IUserAPIUserData>('/users/me'),
+            HttpClient.get<UserSettings>('/settings', {
+                params: {
+                    name: ['activeIssuerId'],
+                },
+            }),
+        ]);
+        return { user: user.data, settings: settings.data }
     }
-}
+)
+    
+const AuthSlice = createSlice({
+    name: 'auth',
+    initialState: INITIAL_STATE,
+    reducers: {
+        logOut(state, action) {
+            state = INITIAL_STATE
+        },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(signInAuth.fulfilled, (state, action) => {
+            state.success = true
+            state.isLoading = false
+        })
+        builder.addCase(signInAuth.pending, (state, action) => {
+            state.isLoading = true
+        })
+        builder.addCase(signInAuth.rejected, (state, action) => {
+            state.isLoading = false
+            state.error = true
+            state.message = action.error.message
+        })
+    }
+})    
 
-export default Auth;
+export default AuthSlice;
