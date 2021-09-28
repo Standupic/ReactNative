@@ -6,6 +6,7 @@ import Logo from "../components/Logo";
 import {View} from "react-native";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
+import VoucherList from "../components/voucher/voucherList";
 
 const VoucherListStackScreen = createNativeStackNavigator();
 
@@ -23,9 +24,9 @@ const VoucherListStack = () => {
         <VoucherListStackScreen.Navigator screenOptions={{headerShown: isConnected}}>
             <VoucherListStackScreen.Screen 
                 name="VouchersListScreen"
-                component={StartScreen}
+                component={VoucherList}
                 options={{
-                    headerTitle: "Список ваучеров",
+                    headerTitle: "",
                     headerRight: HeaderIssuerPoint,
                     headerLeft: LogoMenu
                 }}
