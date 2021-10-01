@@ -1,7 +1,8 @@
 import Axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios';
 import config from "../config";
 import {getItem} from "../utils/localStorage"
-import {Credentials} from "./types/common";
+import {Credentials} from "./types/common"
+const qs = require('qs')
 
 export interface HttpClient {
     post: typeof axios.post;
@@ -12,9 +13,9 @@ export interface HttpClient {
 
 const axios = Axios.create({
     baseURL: config.host + config.prefix,
-   /* paramsSerializer: (params) => {
+   paramsSerializer: (params) => {
         return qs.stringify(params, { arrayFormat: 'brackets', allowDots: true });
-    },*/
+    },
 });
 
 const isAuthRequest = (config: AxiosRequestConfig) => {

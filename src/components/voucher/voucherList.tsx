@@ -51,9 +51,12 @@ const Item = ({ title } : ItemProps) => (
 
 const VoucherList = () => {
     
-    const renderItem: ListRenderItem<{id: string, title: string}> | null | undefined = ({ item }) => (
-        <Item title={item.title} />
-    );
+    
+    
+    const renderItem: ListRenderItem<{id: string, title: string}> | null | undefined = 
+        ({ item }) => (
+            <Item title={item.title} />
+        );
     
     return (
         <SafeAreaView style={styles.container}>
@@ -71,6 +74,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginVertical: 8,
         marginHorizontal: 16,
+        backgroundColor: "white",
     },
     title: {
         fontSize: 32,

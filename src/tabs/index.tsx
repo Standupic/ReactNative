@@ -2,7 +2,6 @@ import React from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import StartScreen from "../screens/StartScreen";
 import VoucherListStack from "../stack-screens/VoucherListStack";
-import ModalError from "../components/common/ModalError";
 const BottomMenu = createBottomTabNavigator()
 
 const HomeTabs = () => {

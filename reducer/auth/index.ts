@@ -9,13 +9,20 @@ interface IInitialState {
     success: boolean,
     error: boolean,
     message: string | undefined,
+    activeIssuerId: string | null
 }
 
 const INITIAL_STATE: IInitialState = {
     isLoading: false,
     success: false,
     error: false,
-    message: undefined
+    message: undefined,
+    activeIssuerId: null
+}
+
+interface token {
+    token: string,
+    refreshToken: string
 }
 
 interface Credentials {
@@ -24,7 +31,6 @@ interface Credentials {
 }
 
 export interface UserSettings {
-    activeRefundOfficeId: string | null;
     activeIssuerId: string | null;
 }
 
@@ -32,10 +38,11 @@ export const signInAuth = createAsyncThunk(
     'user/auth',
     async (credentials: Credentials, thunkAPI) => {
         const { login , password } = credentials
-        const { data } = await HttpClient.post<Credentials>('/authentication_token', {
+        const { data } = await HttpClient.post<token>('/authentication_token', {
             login: getStringWithFilteredSpace(login), 
             password,
         });
+        console.log(data.token, 'TOKEN')
         setItem('token', data)
         const [user, settings] = await Promise.all([
             HttpClient.get<IUserAPIUserData>('/users/me'),
@@ -61,6 +68,7 @@ const AuthSlice = createSlice({
         builder.addCase(signInAuth.fulfilled, (state, action) => {
             state.success = true
             state.isLoading = false
+            state.activeIssuerId = action.payload.settings.activeIssuerId
         })
         builder.addCase(signInAuth.pending, (state, action) => {
             state.isLoading = true
