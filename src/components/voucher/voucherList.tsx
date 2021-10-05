@@ -1,5 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {SafeAreaView, StatusBar, StyleSheet, View, Text, FlatList, ListRenderItem} from "react-native";
+import {getVouchers} from "../../../reducer/voucher";
+import {useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
+import {activeIssuerId, selectActiveIssuerId} from "../../../reducer/user";
+import store from "../../../store";
 
 const DATA = [
     {
@@ -50,8 +55,18 @@ const Item = ({ title } : ItemProps) => (
 
 
 const VoucherList = () => {
+    const dispatch = useDispatch()
+    const currentIssuerId = useSelector(activeIssuerId)
     
+    console.log(currentIssuerId, 'currentIssuerId')
+    const getVouchersList = async () => {
+        return dispatch(getVouchers({params: {['issuer.id']: currentIssuerId}}));
+        
+    }
     
+    useEffect(() => {
+        console.log(getVouchersList())
+    })
     
     const renderItem: ListRenderItem<{id: string, title: string}> | null | undefined = 
         ({ item }) => (

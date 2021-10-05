@@ -1,6 +1,14 @@
 import {ICompany, ICompanyAPI} from "./company";
 import {fiscalAccumulators} from './fiscal';
 
+export interface IIssuer {
+    createdAt: string;
+    deletedAt: string;
+    updatedAt: string;
+    id: string;
+    name: string;
+}
+
 export interface IssuersAPI {
     id: string;
     name: string;

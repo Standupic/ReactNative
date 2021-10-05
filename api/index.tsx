@@ -13,7 +13,7 @@ export interface HttpClient {
 
 const axios = Axios.create({
     baseURL: config.host + config.prefix,
-   paramsSerializer: (params) => {
+    paramsSerializer: (params) => {
         return qs.stringify(params, { arrayFormat: 'brackets', allowDots: true });
     },
 });
