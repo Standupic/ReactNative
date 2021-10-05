@@ -1,6 +1,5 @@
-import {Platform, StatusBar} from "react-native";
+import {Platform} from "react-native";
 import {getStatusBarHeight} from "react-native-status-bar-height";
-import React from "react";
 
 export const isIOS = Platform.OS === 'ios'
 

@@ -1,53 +1,33 @@
 import React, {useEffect} from "react";
-import {SafeAreaView, StatusBar, StyleSheet, View, Text, FlatList, ListRenderItem} from "react-native";
-import {getVouchers} from "../../../reducer/voucher";
+import {SafeAreaView, StatusBar, StyleSheet, View, Text, FlatList} from "react-native";
+import {getVouchers, IVoucherList, selectVouchers} from "../../../reducer/voucher";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
-import {activeIssuerId, selectActiveIssuerId} from "../../../reducer/user";
-import store from "../../../store";
+import {selectActiveIssuerId} from "../../../reducer/user";
 
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Item',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Item',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Item',
-    },
-];
-
-type ItemProps = {
-    title: string
-}
-
-const Item = ({ title } : ItemProps) => (
+const Item = ({hrIdentifier, status, date, total, nds, refund}: IVoucherList) => (
     <View style={styles.item}>
         <View style={styles.itemTop}>
             <View>
-                <Text>{"№ 1231312"}</Text>
-                <Text>{"Дата: 23.04.03"}</Text>
+                <Text>{`№ ${hrIdentifier}`}</Text>
+                <Text>{`Дата: ${date}`}</Text>
             </View>
             <View>
-                <Text>{"Обработан"}</Text>
+                <Text>{`Cтатус: ${status}`}</Text>
             </View>
         </View>
         <View style={styles.heading}>
             <View>
                 <Text>{"Сумма покупок"}</Text>
-                <Text>{"10000"}</Text>
+                <Text>{total}</Text>
             </View>
             <View>
                 <Text>{"НДС"}</Text>
-                <Text>{"600"}</Text>
+                <Text>{nds}</Text>
             </View>
             <View>
                 <Text>{"К возрату"}</Text>
-                <Text>{"1284"}</Text>
+                <Text>{refund}</Text>
             </View>
         </View>
     </View>
@@ -56,26 +36,32 @@ const Item = ({ title } : ItemProps) => (
 
 const VoucherList = () => {
     const dispatch = useDispatch()
-    const currentIssuerId = useSelector(activeIssuerId)
-    
-    console.log(currentIssuerId, 'currentIssuerId')
+    const currentIssuerId = useSelector(selectActiveIssuerId)
+    const vouchers = useSelector(selectVouchers)
     const getVouchersList = async () => {
-        return dispatch(getVouchers({params: {['issuer.id']: currentIssuerId}}));
-        
+        return dispatch(getVouchers({['issuer.id']: currentIssuerId}));
     }
     
     useEffect(() => {
-        console.log(getVouchersList())
-    })
-    
-    const renderItem: ListRenderItem<{id: string, title: string}> | null | undefined = 
-        ({ item }) => (
-            <Item title={item.title} />
-        );
+        getVouchersList()
+    },[])
+
+    const renderItem = ({item}: {item: IVoucherList}) => {
+        return (
+            <Item
+                hrIdentifier={item.hrIdentifier}
+                status={item.status}
+                date={item.date}
+                nds={item.nds}
+                total={item.total}
+                refund={item.refund}
+            />
+        )
+    };
     
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id}/>
+            <FlatList data={vouchers} renderItem={renderItem} keyExtractor={item => item.hrIdentifier}/>
         </SafeAreaView>
     )
 }

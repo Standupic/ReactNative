@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import NetInfo, {NetInfoState} from "@react-native-community/netinfo";
+import React from 'react';
 import {StyleSheet, Text, View, StatusBar} from 'react-native';
 import {statusHeight, isIOS} from '../const';
 import {useSelector} from "react-redux";
