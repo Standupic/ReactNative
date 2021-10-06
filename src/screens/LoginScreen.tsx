@@ -52,7 +52,7 @@ const LoginScreen = ({navigation}: Props) => {
     if(isLoading){
         return (
             <Background>
-                <ActivityIndicator size={'large'} color={"green"}/>
+                <ActivityIndicator size={'large'} color={"#511D90"}/>
             </Background>    
         )
     }
@@ -71,7 +71,11 @@ const LoginScreen = ({navigation}: Props) => {
                     return (
                         <View style={styles.container}>
                             <LoginForm />
-                            <Button mode="contained" onPress={handleSubmit}>Login</Button>
+                            <Button 
+                                mode="contained"
+                                onPress={handleSubmit}
+                                style={{backgroundColor: "#511D90"}}
+                            >Войти</Button>
                         </View>
                     )
                 }}

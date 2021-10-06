@@ -1,15 +1,21 @@
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View, Pressable} from "react-native";
 import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
+import { useNavigation } from '@react-navigation/native';
 
 const HeaderIssuerPoint = () => {
     const issuers = useSelector((state: RootState) => state.user.currentIssuer)
+    const navigation = useNavigation();
     return (
-        <View style={styles.container}>
+        <Pressable style={styles.container} onPress={() => {
+            navigation.navigate('IssuerPoints')
+            navigation.setOptions({tabBarVisible: false})
+            }
+        }>
             <Text style={styles.title}>Филиал</Text>
             <Text style={styles.description}>{(issuers) ? `${issuers.name}` : "Точка не указана!"}</Text>
-        </View>
+        </Pressable>
     )
 }
 

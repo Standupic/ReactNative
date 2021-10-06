@@ -1,9 +1,9 @@
 import React, {useEffect} from "react";
-import {SafeAreaView, StatusBar, StyleSheet, View, Text, FlatList} from "react-native";
-import {getVouchers, IVoucherList, selectVouchers} from "../../../reducer/voucher";
+import {SafeAreaView, StatusBar, StyleSheet, View, Text, FlatList, ActivityIndicator} from "react-native";
+import {getVouchers, IVoucherList, selectActivityIndicator, selectVouchers} from "../../../reducer/voucher";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
-import {selectActiveIssuerId} from "../../../reducer/user";
+import {selectActiveIssuerId} from "../../../reducer/issuers";
 
 const Item = ({hrIdentifier, status, date, total, nds, refund}: IVoucherList) => (
     <View style={styles.item}>
@@ -38,14 +38,14 @@ const VoucherList = () => {
     const dispatch = useDispatch()
     const currentIssuerId = useSelector(selectActiveIssuerId)
     const vouchers = useSelector(selectVouchers)
+    const activityIndicator = useSelector(selectActivityIndicator)
     const getVouchersList = async () => {
         return dispatch(getVouchers({['issuer.id']: currentIssuerId}));
     }
-    
     useEffect(() => {
+        console.log("effect")
         getVouchersList()
-    },[])
-
+    },[currentIssuerId])
     const renderItem = ({item}: {item: IVoucherList}) => {
         return (
             <Item
@@ -58,10 +58,13 @@ const VoucherList = () => {
             />
         )
     };
-    
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList data={vouchers} renderItem={renderItem} keyExtractor={item => item.hrIdentifier}/>
+            {activityIndicator.isLoading ?
+                <ActivityIndicator size={'large'} color={"#511D90"}/>
+            :   
+                <FlatList data={vouchers} renderItem={renderItem} keyExtractor={item => item.hrIdentifier}/>
+            }
         </SafeAreaView>
     )
 }
@@ -70,12 +73,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: StatusBar.currentHeight || 0,
+        justifyContent: "center"
     },
     item: {
         padding: 10,
         marginVertical: 8,
         marginHorizontal: 16,
         backgroundColor: "white",
+        overflow: 'hidden'
     },
     title: {
         fontSize: 32,

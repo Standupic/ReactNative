@@ -1,12 +1,13 @@
-import {createAsyncThunk, createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import HttpClient from "../../api";
 import {VoucherInterface} from "../../api/types/voucher";
 import {RootState} from "../../store";
+import {ActivityIndicator} from "../../api/types/common";
+import AuthSlice from "../auth";
+import {INITIAL_STATE_ACTIVITY_INDICATOR} from "../const";
 
 interface IInitialState {
-    isLoading: boolean,
-    success: boolean,
-    error: boolean,
+    activityIndicator: ActivityIndicator
     message: string | undefined,
     vouchers: IVoucherList[] | null
 }
@@ -21,16 +22,10 @@ export interface IVoucherList {
 }
 
 const INITIAL_STATE: IInitialState = {
-    isLoading: false,
-    success: false,
-    error: false,
+    activityIndicator: INITIAL_STATE_ACTIVITY_INDICATOR,
     message: undefined,
     vouchers: null
 }
-
-
-
-
 
 
 export const getVouchers = createAsyncThunk(
@@ -66,16 +61,21 @@ const VoucherSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getVouchers.fulfilled, 
             (state:IInitialState, action) => {
-            state.success = true
+            state.activityIndicator.success = true
+            state.activityIndicator.isLoading = false
+                
         })
         builder.addCase(getVouchers.pending,
             (state:IInitialState, action) => {
-            state.isLoading = true
+            state.activityIndicator.isLoading = true
         })
         builder.addCase(getVouchers.rejected,
             (state:IInitialState, action) => {
-                state.error = true
+                state.activityIndicator.error = true
                 state.message = action.error.message
+        })
+        builder.addCase(AuthSlice.actions.logOut, (state, action) => {
+            return INITIAL_STATE
         })
     }
 })
@@ -83,6 +83,8 @@ const VoucherSlice = createSlice({
 // SELECTORS
 
 export const selectVouchers = (state: RootState) => state.vouchers.vouchers;
+
+export const selectActivityIndicator = (state: RootState) => state.vouchers.activityIndicator;
 
 // END SELECTORS
 

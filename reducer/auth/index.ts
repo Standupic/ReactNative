@@ -1,20 +1,18 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import HttpClient from "../../api";
 import {getStringWithFilteredSpace} from "../../utils/common";
 import {setItem} from "../../utils/localStorage";
 import {IUserAPIUserData} from "../../api/types/user";
+import {ActivityIndicator} from "../../api/types/common";
+import {INITIAL_STATE_ACTIVITY_INDICATOR} from "../const";
 
 interface IInitialState {
-    isLoading: boolean,
-    success: boolean,
-    error: boolean,
+    activityIndicator: ActivityIndicator
     message: string | undefined,
 }
 
 const INITIAL_STATE: IInitialState = {
-    isLoading: false,
-    success: false,
-    error: false,
+    activityIndicator: INITIAL_STATE_ACTIVITY_INDICATOR,
     message: undefined,
 }
 
@@ -60,26 +58,24 @@ const AuthSlice = createSlice({
     initialState: INITIAL_STATE,
     reducers: {
         logOut(state, action) {
-            state.isLoading = false
-            state.error = false
-            state.success = false
+            state.activityIndicator = INITIAL_STATE_ACTIVITY_INDICATOR
             state.message = undefined
         },
     },
     extraReducers: (builder) => {
         builder.addCase(signInAuth.fulfilled,
             (state:IInitialState, action) => {
-            state.success = true
-            state.isLoading = false
+            state.activityIndicator.success = true
+            state.activityIndicator.isLoading = false
         })
         builder.addCase(signInAuth.pending,
             (state:IInitialState, action ) => {
-            state.isLoading = true
+            state.activityIndicator.isLoading = true
         })
         builder.addCase(signInAuth.rejected,
             (state:IInitialState, action) => {
-            state.isLoading = false
-            state.error = true
+            state.activityIndicator.isLoading = false
+            state.activityIndicator.error = true
             state.message = action.error.message
         })
     }

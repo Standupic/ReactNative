@@ -31,6 +31,10 @@ const VoucherListStack = () => {
                     headerLeft: LogoMenu
                 }}
             />
+            <VoucherListStackScreen.Screen 
+                name={"IssuerPoints"}
+                component={StartScreen}
+            />
             {/* other screens */}
         </VoucherListStackScreen.Navigator>
     );

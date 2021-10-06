@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Button as PaperButton } from 'react-native-paper'
 import { StyleSheet} from 'react-native'
-import { theme } from '../core/theme'
  
 type Props = React.ComponentProps<typeof PaperButton>
 
@@ -10,7 +9,6 @@ const Button = ({ mode, style, ...props }: Props) => {
         <PaperButton
             style={[
                 styles.button,
-                mode === 'outlined' && { backgroundColor: theme.colors.surface },
                 style,
             ]}
             labelStyle={styles.text}

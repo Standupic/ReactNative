@@ -13,7 +13,7 @@ const NetSlice = createSlice({
     initialState: INITIAL_STATE,
     reducers: {
         isConnect(state, action){
-            state.isConnected = action.payload
+            state.isConnected = true
         }
     },
 })

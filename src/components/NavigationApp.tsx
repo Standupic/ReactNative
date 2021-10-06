@@ -15,18 +15,18 @@ const NavigationApp = () => {
     return(
         <NavigationContainer>
             <RootStack.Navigator screenOptions={{headerShown: false}}>
-                {!user &&
+                {!isConnected && 
+                <RootStack.Screen
+                    name="StatusConnection"
+                    component={StatusConnection}
+                />
+                }
+                {!user && isConnected &&
                     <RootStack.Screen name="LoginScreen" component={LoginScreen}/> }
                 {user && isConnected &&     
                     <RootStack.Screen 
                         name="VoucherListStack"
                         component={HomeTabs}
-                    />
-                }
-                {user && !isConnected &&
-                    <RootStack.Screen
-                        name="StatusConnection"
-                        component={StatusConnection}
                     />
                 }
             </RootStack.Navigator>

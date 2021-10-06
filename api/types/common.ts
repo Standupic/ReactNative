@@ -13,3 +13,10 @@ export interface Credentials {
 
 export type CompanyContactType = 'contract' | 'offer'
 export type CompanyDocumentType = 'contract' | 'power_of_attorney' | 'MPT_statement';
+
+
+export interface ActivityIndicator {
+    isLoading: boolean,
+    success: boolean,
+    error: boolean,
+}

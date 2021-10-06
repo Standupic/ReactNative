@@ -1,4 +1,4 @@
-import Axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios';
+import Axios, {AxiosRequestConfig} from 'axios';
 import config from "../config";
 import {getItem} from "../utils/localStorage"
 import {Credentials} from "./types/common"

@@ -1,4 +1,3 @@
-import {UserSettings} from "../auth";
 import {IssuerPointAPI} from "../../api/types/issuers";
 
 export const getCurrentIssuer = (issuers: IssuerPointAPI[] | undefined, id: string | null ) => {
