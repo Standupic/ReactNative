@@ -6,8 +6,7 @@ import {StackScreenProps} from "@react-navigation/stack";
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {theme} from '../core/theme';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from "../../store";
-import AuthSlice, {signInAuth} from "../../reducer/auth";
+import AuthSlice, {selectActivityIndicatorAuth, signInAuth} from "../../reducer/auth";
 import { Formik } from 'formik';
 import LoginForm from "../components/LoginForm";
 import ModalError from "../components/common/ModalError";
@@ -25,9 +24,8 @@ const initialValues: IValues = {
 type Props = StackScreenProps<{[key:string]: any}, 'LoginScreen'>;
 
 const LoginScreen = ({navigation}: Props) => {
-    const authState = useSelector((state: RootState) => state.auth)
     const [isVisible, setVisible] = useState<boolean>(false)
-    const {isLoading, message, success, error} = authState
+    const {isLoading, message, success, error} = useSelector(selectActivityIndicatorAuth)
     const dispatch = useDispatch()
     
     useEffect(() => {

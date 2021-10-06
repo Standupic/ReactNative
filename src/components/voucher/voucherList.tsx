@@ -1,6 +1,11 @@
 import React, {useEffect} from "react";
 import {SafeAreaView, StatusBar, StyleSheet, View, Text, FlatList, ActivityIndicator} from "react-native";
-import {getVouchers, IVoucherList, selectActivityIndicator, selectVouchers} from "../../../reducer/voucher";
+import {
+    getVouchers,
+    IVoucherList,
+    selectActivityIndicatorVoucher,
+    selectVouchers
+} from "../../../reducer/voucher";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
 import {selectActiveIssuerId} from "../../../reducer/issuers";
@@ -38,7 +43,8 @@ const VoucherList = () => {
     const dispatch = useDispatch()
     const currentIssuerId = useSelector(selectActiveIssuerId)
     const vouchers = useSelector(selectVouchers)
-    const activityIndicator = useSelector(selectActivityIndicator)
+    const activityIndicator = useSelector(selectActivityIndicatorVoucher)
+    const {error, isLoading, success, message} = activityIndicator
     const getVouchersList = async () => {
         return dispatch(getVouchers({['issuer.id']: currentIssuerId}));
     }
@@ -60,7 +66,7 @@ const VoucherList = () => {
     };
     return (
         <SafeAreaView style={styles.container}>
-            {activityIndicator.isLoading ?
+            {isLoading ?
                 <ActivityIndicator size={'large'} color={"#511D90"}/>
             :   
                 <FlatList data={vouchers} renderItem={renderItem} keyExtractor={item => item.hrIdentifier}/>

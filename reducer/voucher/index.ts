@@ -8,7 +8,6 @@ import {INITIAL_STATE_ACTIVITY_INDICATOR} from "../const";
 
 interface IInitialState {
     activityIndicator: ActivityIndicator
-    message: string | undefined,
     vouchers: IVoucherList[] | null
 }
 
@@ -23,7 +22,6 @@ export interface IVoucherList {
 
 const INITIAL_STATE: IInitialState = {
     activityIndicator: INITIAL_STATE_ACTIVITY_INDICATOR,
-    message: undefined,
     vouchers: null
 }
 
@@ -72,7 +70,7 @@ const VoucherSlice = createSlice({
         builder.addCase(getVouchers.rejected,
             (state:IInitialState, action) => {
                 state.activityIndicator.error = true
-                state.message = action.error.message
+                state.activityIndicator.message = action.error.message
         })
         builder.addCase(AuthSlice.actions.logOut, (state, action) => {
             return INITIAL_STATE
@@ -84,7 +82,7 @@ const VoucherSlice = createSlice({
 
 export const selectVouchers = (state: RootState) => state.vouchers.vouchers;
 
-export const selectActivityIndicator = (state: RootState) => state.vouchers.activityIndicator;
+export const selectActivityIndicatorVoucher = (state: RootState) => state.vouchers.activityIndicator;
 
 // END SELECTORS
 

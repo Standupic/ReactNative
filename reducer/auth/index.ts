@@ -5,15 +5,14 @@ import {setItem} from "../../utils/localStorage";
 import {IUserAPIUserData} from "../../api/types/user";
 import {ActivityIndicator} from "../../api/types/common";
 import {INITIAL_STATE_ACTIVITY_INDICATOR} from "../const";
+import {RootState} from "../../store";
 
 interface IInitialState {
     activityIndicator: ActivityIndicator
-    message: string | undefined,
 }
 
 const INITIAL_STATE: IInitialState = {
     activityIndicator: INITIAL_STATE_ACTIVITY_INDICATOR,
-    message: undefined,
 }
 
 interface token {
@@ -59,7 +58,7 @@ const AuthSlice = createSlice({
     reducers: {
         logOut(state, action) {
             state.activityIndicator = INITIAL_STATE_ACTIVITY_INDICATOR
-            state.message = undefined
+            state.activityIndicator.message = undefined
         },
     },
     extraReducers: (builder) => {
@@ -76,9 +75,17 @@ const AuthSlice = createSlice({
             (state:IInitialState, action) => {
             state.activityIndicator.isLoading = false
             state.activityIndicator.error = true
-            state.message = action.error.message
+            state.activityIndicator.message = action.error.message
         })
     }
-})    
+})
+
+
+// SELECTORS
+
+export const selectActivityIndicatorAuth = (state: RootState) => state.auth.activityIndicator;
+
+// END SELECTOR
+
 
 export default AuthSlice;

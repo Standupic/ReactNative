@@ -19,4 +19,5 @@ export interface ActivityIndicator {
     isLoading: boolean,
     success: boolean,
     error: boolean,
+    message: string | undefined,
 }

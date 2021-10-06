@@ -42,7 +42,7 @@ const IssuersSlice = createSlice({
 
 // SELECTORS
 
-export const selectActiveIssuerId = (state: RootState) => state.user.activeIssuerId;
+export const selectActiveIssuerId = (state: RootState) => state.issuers.activeIssuerId;
 
 export const activeIssuerId = createSelector(selectActiveIssuerId, (activeIssuerId) => {
     return activeIssuerId;

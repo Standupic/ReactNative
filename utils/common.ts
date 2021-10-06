@@ -1,3 +1,5 @@
+import {RootState} from "../store";
+
 export const getStringWithFilteredSpace = (str?: string) => {
     if (!str) {
         return '';
