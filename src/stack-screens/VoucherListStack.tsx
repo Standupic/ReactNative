@@ -1,12 +1,15 @@
 import React, {Component, ReactNode} from "react";
 import {createNativeStackNavigator} from "react-native-screens/native-stack";
-import HeaderIssuerPoint from "../../src/components/common/HeaderIssuerPoint";
+import HeaderCurrentIssuerPoint from "../../src/components/common/HeaderCurrentIssuerPoint";
 import StartScreen from "../screens/StartScreen";
 import Logo from "../components/Logo";
 import {View} from "react-native";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
-import VoucherList from "../components/voucher/voucherList";
+import VoucherList from "../screens/VouchersListScreen";
+import ModalError from "../components/common/ModalError";
+import AuthSlice from "../../reducer/auth";
+import {selectActivityIndicatorVoucher} from "../../reducer/voucher";
 
 const VoucherListStackScreen = createNativeStackNavigator();
 
@@ -27,7 +30,7 @@ const VoucherListStack = () => {
                 component={VoucherList}
                 options={{
                     headerTitle: "",
-                    headerRight: HeaderIssuerPoint,
+                    headerRight: HeaderCurrentIssuerPoint,
                     headerLeft: LogoMenu
                 }}
             />

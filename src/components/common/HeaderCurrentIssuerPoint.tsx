@@ -4,8 +4,8 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import { useNavigation } from '@react-navigation/native';
 
-const HeaderIssuerPoint = () => {
-    const issuers = useSelector((state: RootState) => state.user.currentIssuer)
+const HeaderCurrentIssuerPoint = () => {
+    const issuers = useSelector((state: RootState) => state.issuers.currentIssuer)
     const navigation = useNavigation();
     return (
         <Pressable style={styles.container} onPress={() => {
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
     }    
 })
 
-export default HeaderIssuerPoint
+export default HeaderCurrentIssuerPoint

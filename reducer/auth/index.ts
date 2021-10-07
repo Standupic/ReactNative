@@ -58,7 +58,6 @@ const AuthSlice = createSlice({
     reducers: {
         logOut(state, action) {
             state.activityIndicator = INITIAL_STATE_ACTIVITY_INDICATOR
-            state.activityIndicator.message = undefined
         },
     },
     extraReducers: (builder) => {

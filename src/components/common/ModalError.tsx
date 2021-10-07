@@ -9,19 +9,14 @@ import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
 interface IMyModal {
     isVisible: boolean,
     message: string | undefined
-    setVisible: React.Dispatch<React.SetStateAction<boolean>>
-    action?: ActionCreatorWithPayload<any, string>
+    action: ActionCreatorWithPayload<any, string>
 }
 
 const ModalError = (props: IMyModal) => {
-    const {isVisible, message, setVisible, action } = props
+    const {isVisible, message, action } = props
     const dispatch = useDispatch();
     const toClose = useCallback(() => {
-        if(action){
             dispatch(action({}))
-            setVisible(false)
-        }
-        setVisible(false)
     },[])
     return (
         <View style={styles.container}>

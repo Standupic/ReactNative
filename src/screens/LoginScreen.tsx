@@ -24,13 +24,8 @@ const initialValues: IValues = {
 type Props = StackScreenProps<{[key:string]: any}, 'LoginScreen'>;
 
 const LoginScreen = ({navigation}: Props) => {
-    const [isVisible, setVisible] = useState<boolean>(false)
-    const {isLoading, message, success, error} = useSelector(selectActivityIndicatorAuth)
+    const {isLoading, message, error} = useSelector(selectActivityIndicatorAuth)
     const dispatch = useDispatch()
-    
-    useEffect(() => {
-        if(error) setVisible(true)
-    },[error, dispatch, success])
     
     const onSubmit = async (values: IValues) => {
         await dispatch(signInAuth({login: values.login, password: values.password}))
@@ -54,9 +49,13 @@ const LoginScreen = ({navigation}: Props) => {
             </Background>    
         )
     }
-    if(error && isVisible) {
+    if(error) {
         return (
-            <ModalError isVisible={isVisible} message={message} setVisible={setVisible} action={AuthSlice.actions.logOut}/>
+            <ModalError 
+                isVisible={error}
+                message={message}
+                action={AuthSlice.actions.logOut}
+            />
         )
     }
     return (

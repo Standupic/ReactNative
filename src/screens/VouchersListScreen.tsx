@@ -1,20 +1,134 @@
-import React from 'react'
-import Background from '../components/Background'
-import Logo from '../components/Logo'
-import BackButton from '../components/BackButton';
-import {StackScreenProps} from '@react-navigation/stack';
-import Header from '../components/Header';
+import React, {useEffect, useState} from "react";
+import {SafeAreaView, StatusBar, StyleSheet, View, Text, FlatList, ActivityIndicator} from "react-native";
+import VoucherSlice, {
+    getVouchers,
+    IVoucherList,
+    selectActivityIndicatorVoucher, selectPage,
+    selectVouchers
+} from "../../reducer/voucher";
+import {useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
+import {selectActiveIssuerId} from "../../reducer/issuers";
+import ModalError from "../components/common/ModalError";
+import AuthSlice from "../../reducer/auth";
 
-type Props = StackScreenProps<{[key:string]: any}, 'VouchersListScreen'>;
+const Item = ({hrIdentifier, status, date, total, nds, refund}: IVoucherList) => (
+    <View style={styles.item}>
+        <View style={styles.itemTop}>
+            <View>
+                <Text>{`№ ${hrIdentifier}`}</Text>
+                <Text>{`Дата: ${date}`}</Text>
+            </View>
+            <View>
+                <Text>{`Cтатус: ${status}`}</Text>
+            </View>
+        </View>
+        <View style={styles.heading}>
+            <View>
+                <Text>{"Сумма покупок"}</Text>
+                <Text>{total}</Text>
+            </View>
+            <View>
+                <Text>{"НДС"}</Text>
+                <Text>{nds}</Text>
+            </View>
+            <View>
+                <Text>{"К возрату"}</Text>
+                <Text>{refund}</Text>
+            </View>
+        </View>
+    </View>
+);
 
-const VouchersListScreen = ({navigation}: Props) => {
+
+const VoucherListScreen = () => {
+    const dispatch = useDispatch()
+    const currentIssuerId = useSelector(selectActiveIssuerId)
+    const vouchers = useSelector(selectVouchers)
+    const page = useSelector(selectPage)
+    const activityIndicator = useSelector(selectActivityIndicatorVoucher)
+    const {error, isLoading, message} = activityIndicator
+    const getVouchersList = async () => {
+        return dispatch(getVouchers({['issuer.id']: currentIssuerId}));
+    }
+    
+    useEffect(() => {
+        getVouchersList()
+    },[currentIssuerId, page])
+    
+    const onEndReached = () => {
+        dispatch(VoucherSlice.actions.incrementPagination(1))
+    }
+    
+    const renderItem = ({item}: {item: IVoucherList}) => {
+        return (
+            <Item
+                hrIdentifier={item.hrIdentifier}
+                status={item.status}
+                date={item.date}
+                nds={item.nds}
+                total={item.total}
+                refund={item.refund}
+            />
+        )
+    };
+    if(error) {
+        return (
+            <ModalError 
+                isVisible={error} 
+                message={message}
+                action={VoucherSlice.actions.closeModalError}
+            />
+        )
+    }
     return (
-        <Background>
-            <BackButton goBack={navigation.goBack}/>
-            <Logo />
-            <Header>VouchersListScreen</Header>
-        </Background>
+        <SafeAreaView style={styles.container}>
+            <FlatList
+                refreshing={isLoading}
+                onRefresh={() => {getVouchersList()}}
+                data={vouchers}
+                renderItem={renderItem} keyExtractor={item => item.hrIdentifier}
+                onEndReachedThreshold={0.5}
+                onEndReached={onEndReached}
+                />
+        </SafeAreaView>
     )
 }
 
-export default VouchersListScreen;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: StatusBar.currentHeight || 0,
+        justifyContent: "center"
+    },
+    item: {
+        padding: 10,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        backgroundColor: "white",
+        overflow: 'hidden'
+    },
+    title: {
+        fontSize: 32,
+    },
+    itemTop: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignContent: "space-between",
+        flexDirection: "row"
+    },
+    heading: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignContent: "center",
+        flexDirection: "row"
+    },
+    sums: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignContent: "center",
+        flexDirection: "row" 
+    }
+});
+
+export default VoucherListScreen
