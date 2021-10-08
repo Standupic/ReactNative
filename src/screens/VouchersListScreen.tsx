@@ -1,16 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {SafeAreaView, StatusBar, StyleSheet, View, Text, FlatList, ActivityIndicator} from "react-native";
 import VoucherSlice, {
     getVouchers,
     IVoucherList,
-    selectActivityIndicatorVoucher, selectPage,
+    selectActivityIndicatorVoucher, selectPagination,
     selectVouchers
 } from "../../reducer/voucher";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
 import {selectActiveIssuerId} from "../../reducer/issuers";
 import ModalError from "../components/common/ModalError";
-import AuthSlice from "../../reducer/auth";
 
 const Item = ({hrIdentifier, status, date, total, nds, refund}: IVoucherList) => (
     <View style={styles.item}>
@@ -45,20 +44,34 @@ const VoucherListScreen = () => {
     const dispatch = useDispatch()
     const currentIssuerId = useSelector(selectActiveIssuerId)
     const vouchers = useSelector(selectVouchers)
-    const page = useSelector(selectPage)
+    const pagination = useSelector(selectPagination)
     const activityIndicator = useSelector(selectActivityIndicatorVoucher)
     const {error, isLoading, message} = activityIndicator
-    const getVouchersList = async () => {
-        return dispatch(getVouchers({['issuer.id']: currentIssuerId}));
-    }
+    const getVouchersList = useCallback(async () => {
+        return dispatch(getVouchers({
+                ['issuer.id']: currentIssuerId,
+            }
+        ));
+    },[currentIssuerId])
     
     useEffect(() => {
         getVouchersList()
-    },[currentIssuerId, page])
+        return () => {
+            dispatch(VoucherSlice.actions.resetPagination()) 
+        }
+    },[currentIssuerId])
+        
     
-    const onEndReached = () => {
-        dispatch(VoucherSlice.actions.incrementPagination(1))
-    }
+    const onRefresh = useCallback(() => {
+        dispatch(VoucherSlice.actions.resetPagination())
+    },[])
+    
+    const onEndReached = useCallback(() => {
+        if(pagination.numberPages === null || pagination.page < pagination.numberPages){
+            dispatch(VoucherSlice.actions.incrementPagination(1))
+            getVouchersList()
+        }
+    },[pagination.page])
     
     const renderItem = ({item}: {item: IVoucherList}) => {
         return (
@@ -85,10 +98,11 @@ const VoucherListScreen = () => {
         <SafeAreaView style={styles.container}>
             <FlatList
                 refreshing={isLoading}
-                onRefresh={() => {getVouchersList()}}
+                onRefresh={onRefresh}
                 data={vouchers}
-                renderItem={renderItem} keyExtractor={item => item.hrIdentifier}
-                onEndReachedThreshold={0.5}
+                renderItem={renderItem} 
+                keyExtractor={item => item.hrIdentifier}
+                onEndReachedThreshold={0.2}
                 onEndReached={onEndReached}
                 />
         </SafeAreaView>

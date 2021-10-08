@@ -10,7 +10,8 @@ import {INITIAL_STATE_ACTIVITY_INDICATOR} from "../const";
 interface IPagination {
     page: number,
     limit: number,
-    total: number | null
+    total: number | null,
+    numberPages: number | null
 }
 
 interface IInitialState {
@@ -34,20 +35,29 @@ const INITIAL_STATE: IInitialState = {
     pagination: {
         page: 1,
         limit: 10,
-        total: null
+        total: null,
+        numberPages: null
     }
 }
 
+const INITIAL_PAGINATION: IPagination = {
+    page: 1,
+    limit: 10,
+    total: null,
+    numberPages: null
+}
 
 export const getVouchers = createAsyncThunk(
     'voucher/list',
     async (params: any, thunkAPI) => {
+        const state = thunkAPI.getState() as RootState
         const {data, headers} = await HttpClient.get<VoucherInterface[]>('/vouchers', {
             params: {
-                ...params
+                _page:state.vouchers.pagination.page,
+                limit:state.vouchers.pagination.limit,
+                ...params,
             }
         });
-        console.log(headers['x-total-count'], 'headers');
         const vouchers = data.reduce((acc: any, voucher) => {
             return [...acc, {
                 hrIdentifier: voucher.hrIdentifier,
@@ -58,8 +68,8 @@ export const getVouchers = createAsyncThunk(
                 refund: voucher.refundableAmount
             }]
         }, [])
-        thunkAPI.dispatch(VoucherSlice.actions.setVouchers(
-            { data: vouchers, total: headers['x-total-count'] }))
+        return thunkAPI.dispatch(VoucherSlice.actions.setVouchers(
+            { data: vouchers, total: headers['x-total-count'] * 1}))
     }
 )
 
@@ -67,39 +77,41 @@ const VoucherSlice = createSlice({
     name: 'voucher',
     initialState: INITIAL_STATE,
     reducers: {
-        setVouchers: (state, action:PayloadAction<{data: IVoucherList[], total: number}>) => {
-            const {page, limit, total} = state.pagination
-            if(page === 1){
-                console.log('1')
+        setVouchers: (state, action:PayloadAction<{data: any, total: number}>) => {
+            state.pagination.total = action.payload.total
+            state.pagination.numberPages = Math.ceil((action.payload.total / state.pagination.limit))
+            const {page} = state.pagination
+            if(page === 1) {
                 state.vouchers = action.payload.data
             }else{
-                console.log('2')
-                console.log(page)
-                console.log(total)
-                if(total){
-                    console.log(Math.ceil(total/limit), "stage")
-                }
-                if(state.vouchers && page < Math.ceil((total ? total/limit : 0))){
-                    state.vouchers = state.vouchers?.concat(action.payload.data)
+                if(state.vouchers){
+                    state.vouchers = state.vouchers.concat(action.payload.data)
                 }
             }
         },
         incrementPagination: (state, action:PayloadAction<number>) => {
-             state.pagination.page+=action.payload
+            state.pagination.page += action.payload
         },
-        closeModalError: (state, action) => {
+        resetPagination: (state) => {
+            const {page, limit} = state.pagination;
+            if(state.vouchers){
+                state.vouchers = state.vouchers.slice(0, (limit*page) - ((limit*page) - limit))
+            }
+            state.pagination = INITIAL_PAGINATION
+        },
+        closeModalError: (state) => {
             state.activityIndicator = INITIAL_STATE_ACTIVITY_INDICATOR
-        }
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getVouchers.fulfilled, 
-            (state:IInitialState, action: PayloadAction<any>) => { // TODO type payload
+            (state:IInitialState) => {
             state.activityIndicator.success = true
+            state.activityIndicator.error = false    
             state.activityIndicator.isLoading = false
-            state.pagination.total = action.payload.total
         })
         builder.addCase(getVouchers.pending,
-            (state:IInitialState, action) => {
+            (state:IInitialState) => {
             state.activityIndicator.isLoading = true
         })
         builder.addCase(getVouchers.rejected,
@@ -115,7 +127,7 @@ const VoucherSlice = createSlice({
 
 // SELECTORS
 
-export const selectPage = (state: RootState) => state.vouchers.pagination.page;
+export const selectPagination = (state: RootState) => state.vouchers.pagination;
 
 export const selectVouchers = (state: RootState) => state.vouchers.vouchers;
 

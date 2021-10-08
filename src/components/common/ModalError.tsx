@@ -9,7 +9,7 @@ import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
 interface IMyModal {
     isVisible: boolean,
     message: string | undefined
-    action: ActionCreatorWithPayload<any, string>
+    action: ActionCreatorWithPayload<any>
 }
 
 const ModalError = (props: IMyModal) => {
